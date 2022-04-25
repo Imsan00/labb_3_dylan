@@ -14,10 +14,18 @@ void menuTree(BSTree tree);
 
 int main(void)
 {
-    BSTree tree = emptyTree();
+    BSTree tree = nullptr;
+
+//    insertSorted(&tree, 20);
+//    insertSorted(&tree, 15);
+//    insertSorted(&tree, 10);
+//    insertSorted(&tree, 25);
+//    insertSorted(&tree, 18);
+
 
     testTree(tree);
     //menuTree(tree);
+
 
     return 0;
 }
@@ -25,10 +33,10 @@ int main(void)
 
 void testTree(BSTree tree)
 {
-    printf("Starting test\n");
+    printf("Starting testttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt");
 
     //Tradet ska vara tomt från borjan
-    assert(isEmpty(tree));
+    assert(!isEmpty(tree));
     //Tester på tomt träd
     assert(!find(tree, 7)); //leta i tomt träd
     removeElement(&tree, 7); //ta bort från tomt träd - programmet ska inte krasha
@@ -152,11 +160,11 @@ void menuTree(BSTree tree)
                 printf("Theoretical minimum depth of tree: %d\n", minDepth(tree));
                 break;
             case 8: if (isEmpty(tree) == 1)
-                printf("The tree is empty\n");
-            else
-                printf("The tree is not empty\n");
+                        printf("The tree is empty\n");
+                    else
+                        printf("The tree is not empty\n");
 
-                break;
+            break;
             case 9: balanceTree(&tree);
                 break;
             case 10: printf("Data to search for: ");

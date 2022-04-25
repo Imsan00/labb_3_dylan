@@ -59,7 +59,7 @@ BSTree emptyTree(void)
 /* Returnerar 1 ifall tradet ar tomt, 0 annars */
 int isEmpty(const BSTree tree)
 {
-    if(tree==NULL)
+    if(tree==nullptr)
         return 1;
     else
         return 0;
@@ -69,13 +69,16 @@ int isEmpty(const BSTree tree)
  Post-condition: data finns i tradet*/
 void insertSorted(BSTree* tree, int data)
 {
-    /*Tank pa att tradet kan vara tomt vid insattning
-      Du bestammer sjalv hur dubletter ska hanteras, ska de inte accepteras eller
-      ska de laggas till vanster/hoger?.
-      Post-condition kan verifieras med hjalp av find(...)*/
-    if(isEmpty(*tree))
-        createNode(data);
-
+    if(isEmpty(*tree)){
+        printf("Inserted");
+        *tree = createNode(data);
+    }
+    if((*tree)->data==data)
+        return;
+    if((*tree)->data>data)
+        return insertSorted((&(*tree)->left), data);
+    if((*tree)->data<data)
+        return insertSorted((&(*tree)->right), data);
 }
 
 /* Utskriftsfunktioner
@@ -135,7 +138,18 @@ void removeElement(BSTree* tree, int data)
      Glom inte att frigora noden nar den lankats ur tradet*/
     if(isEmpty(*tree))
         return;
-
+    if((*tree)->data==data){
+        if((*tree)->right==NULL || (*tree)->left==NULL)
+                return;
+        else if((*tree)->left==NULL)
+            free((*tree));
+        else if((*tree)->right==NULL)
+            free((*tree));
+    }
+    if((*tree)->data>data)
+        return removeElement(&(*tree)->left, data);
+    if((*tree)->data<data)
+        return removeElement(&(*tree)->right, data);
 }
 
 /* Returnerar hur manga noder som totalt finns i tradet */
@@ -154,14 +168,33 @@ int numberOfNodes(const BSTree tree)
 /* Returnerar hur djupt tradet ar */
 int depth(const BSTree tree)
 {
-    return -1; //Ersatt med korrekt returvarde
+    if(isEmpty(tree))
+        return 0;
+    else {
+        int leftDepth = depth(tree->left);
+        int rightdepth = depth(tree->right);
+        if(leftDepth>rightdepth)
+            return leftDepth;
+        else
+            return rightdepth;
+    }
 }
 
 /* Returnerar minimidjupet for tradet
    Se math.h for anvandbara funktioner*/
 int minDepth(const BSTree tree)
 {
-    return -1; //Ersatt med korrekt returvarde
+    if(isEmpty(tree))
+        return 0;
+    else {
+        int leftDepth = depth(tree->left);
+        int rightdepth = depth(tree->right);
+
+        if(leftDepth<rightdepth)
+            return leftDepth+1;
+        else
+            return rightdepth+1;
+    }
 }
 
 /* Balansera tradet sa att depth(tree) == minDepth(tree) */
